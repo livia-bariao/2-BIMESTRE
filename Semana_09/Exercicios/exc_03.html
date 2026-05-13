@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+    <style>
+        body{
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        button{
+            
+            padding: 0.2rem;
+        }
+    </style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Média Escolar</title>
+</head>
+<body>
+    <input type="text" id="nome" placeholder="Nome do Aluno">
+<input type="number" id="n1" step="0.1" placeholder="Nota 1">
+<input type="number" id="n2" step="0.1" placeholder="Nota 2">
+<input type="number" id="n3" step="0.1" placeholder="Nota 3">
+<br>
+<button id="btnCalcular">Verificar Situação</button>
+
+<div id="resultado"></div>
+</body>
+
+<script>
+    const btn = document.getElementById('btnCalcular');
+    const painelResultado = document.getElementById('resultado');
+
+    btn.addEventListener('click', () => {
+    
+    // 1. Pegando os valores e convertendo para Number
+    const nome = document.getElementById('nome').value;
+    const n1 = Number(document.getElementById('n1').value);
+    const n2 = Number(document.getElementById('n2').value);
+    const n3 = Number(document.getElementById('n3').value);
+
+    // 2. Calculando a média
+    const media = (n1 + n2 + n3) / 3;
+    const mediaFormatada = media.toFixed(2);
+
+    // 3. Estrutura de Decisão
+    let mensagem = "";
+    let cor = "";
+
+    if (media >= 7.0) {
+        mensagem = `Aprovado! Parabéns, ${nome}. Média: ${mediaFormatada}`;
+        cor = "blue";
+    } 
+    else if (media >= 4.0) {
+        const faltaParaDez = (10 - media).toFixed(2);
+        mensagem = `Em Exame. ${nome}, sua média foi ${mediaFormatada}. Faltam ${faltaParaDez} para a nota 10.`;
+        cor = "green";
+    } 
+    else {
+        mensagem = `Reprovado. ${nome}, sua média foi ${mediaFormatada}.`;
+        cor = "red";
+    }
+
+    painelResultado.innerText = mensagem;
+    painelResultado.style.color = cor;
+    });
+</script>
+</html>
