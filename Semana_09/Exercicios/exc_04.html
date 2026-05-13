@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxas Infinity Bank</title>
+</head>
+<body>
+    <label>Valor da Venda (R$):</label>
+<input type="number" id="valorVenda" step="0.01">
+
+<label>Bandeira:</label>
+<select id="bandeira">
+    <option value="visa">Visa</option>
+    <option value="master">Mastercard</option>
+    <option value="elo">Elo</option>
+</select>
+
+<label>Parcelas:</label>
+<input type="number" id="parcelas" min="1">
+
+<button id="btnSimular">Simular Venda</button>
+
+<div id="resumo">
+
+</div>
+</body>
+
+<script>
+const btn = document.getElementById('btnSimular');
+
+btn.onclick = () => {
+    // Entradas
+    const venda = Number(document.getElementById('valorVenda').value);
+    const bandeira = document.getElementById('bandeira').value;
+    const qtdParcelas = Number(document.getElementById('parcelas').value);
+    
+    let porcentagemBandeira = 0;
+
+    // 1. Definindo a taxa da bandeira (Switch)
+    switch (bandeira) {
+        case 'visa':
+            porcentagemBandeira = 0.02; // 2%
+            break;
+        case 'master':
+            porcentagemBandeira = 0.0185; // 1.85%
+            break;
+        case 'elo':
+            porcentagemBandeira = 0.03; // 3%
+            break;
+    }
+
+    // 2. Cálculos baseados no "Desritivo de Apoio"
+    const valorTaxaBandeira = venda * porcentagemBandeira;
+    
+    // Fórmula da imagem: Juros Totais = Venda * (0.015 * parcelas)
+    const valorJuros = venda * (0.015 * qtdParcelas);
+    
+    // Taxa fixa mensal de $12,50
+    const taxaFixaTotal = 12.50 * qtdParcelas;
+
+    // Valor Total = Venda + Taxa Bandeira + Juros + Taxa Fixa
+    const valorTotal = venda + valorTaxaBandeira + valorJuros + taxaFixaTotal;
+    const valorParcela = valorTotal / qtdParcelas;
+
+    // 3. Exibindo o Resumo
+    document.getElementById('resumo').innerHTML = `
+        <p>Valor da Taxa: R$ ${valorTaxaBandeira.toFixed(2)}</p>
+        <p>Valor dos Juros: R$ ${valorJuros.toFixed(2)}</p>
+        <p>Taxa Fixa Total (12,50/mês): R$ ${taxaFixaTotal.toFixed(2)}</p>
+        <hr>
+        <p><strong>Valor de cada Parcela: R$ ${valorParcela.toFixed(2)}</strong></p>
+        <p><strong>Total a Pagar: R$ ${valorTotal.toFixed(2)}</strong></p>
+    `;
+};
+</script>
+
+</html>

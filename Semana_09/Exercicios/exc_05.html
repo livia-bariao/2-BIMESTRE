@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<style>
+    .card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra suave */
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+/* Classe para o convidado que já chegou */
+.classe-riscado {
+    text-decoration: line-through;
+    color: gray;
+}
+
+li {
+    list-style: none;
+    border-bottom: 1px solid #eee; /* Separadores discretos */
+    padding: 10px 0;
+}
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Convidados VIP</title>
+</head>
+<body>
+    <div class="card">
+    <h2>Infinity Bank - Lista VIP</h2>
+    <input type="text" id="inputNome" placeholder="Nome do convidado">
+    <button onclick="adicionarConvidado()">Adicionar</button>
+
+    <ul id="listaVip"></ul>
+</div>
+</body>
+
+<script>
+    const input = document.getElementById('inputNome');
+const lista = document.getElementById('listaVip');
+
+function adicionarConvidado() {
+    const nome = input.value.trim(); // Dica: remove espaços extras
+
+    if (nome === "") {
+        alert("Digite um nome válido!");
+        return;
+    }
+
+    // Criando o elemento da lista (li)
+    const li = document.createElement('li');
+    
+    // Criando o texto do nome dentro de um span (para facilitar o risco)
+    const spanNome = document.createElement('span');
+    spanNome.innerText = nome;
+
+    // --- BOTÃO CONCLUIR ---
+    const btnConcluir = document.createElement('button');
+    btnConcluir.innerText = "Concluir";
+    btnConcluir.onclick = () => spanNome.classList.toggle('classe-riscado');
+
+    // --- BOTÃO EDITAR ---
+    const btnEditar = document.createElement('button');
+    btnEditar.innerText = "Editar";
+    btnEditar.onclick = () => {
+        const novoNome = prompt("Editar nome:", spanNome.innerText);
+        if (novoNome) spanNome.innerText = novoNome;
+    };
+
+    // --- BOTÃO EXCLUIR ---
+    const btnExcluir = document.createElement('button');
+    btnExcluir.innerText = "Excluir";
+    btnExcluir.onclick = () => li.remove();
+
+    // Montando o LI e adicionando na lista
+    li.appendChild(spanNome);
+    li.appendChild(btnConcluir);
+    li.appendChild(btnEditar);
+    li.appendChild(btnExcluir);
+    
+    lista.appendChild(li);
+
+    // Limpa o campo para o próximo
+    input.value = "";
+}
+</script>
+</html>
